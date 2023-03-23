@@ -6,7 +6,7 @@ namespace Program
     {
         public static void Main(string[] args)
         {
-            List<string> strings = GetString("C:/Users/glebo/OneDrive/Рабочий стол/text1.txt");
+            List<string> strings = ReadString("C:/Users/nevzo/Desktop/text1.txt");
             
             Console.WriteLine(string.Join("\n", strings));
             for (int i = 0; i < strings.Count; i++)
@@ -14,9 +14,9 @@ namespace Program
                 strings[i] = DeleteSpaces(strings[i]);
             }
             
-            strings = Formatting(strings, 30);
+            strings = Formatting(strings, 20);
             Console.WriteLine(string.Join("\n", strings));
-            
+            WriteString(strings, "C:/Users/nevzo/Desktop/out.txt");
         }
     }
 }

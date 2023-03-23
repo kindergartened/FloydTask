@@ -1,4 +1,6 @@
-﻿namespace FloydLib
+﻿using System.Text;
+
+namespace FloydLib
 {
     public class Floyd
     {
@@ -8,7 +10,7 @@
             
             return str.Trim();
         }
-        public static List<string> GetString(string url)
+        public static List<string> ReadString(string url)
         {
             StreamReader sr = new(url);
             List<string> res = new();
@@ -18,7 +20,17 @@
                 if (!IsSpacyStr(line)) break;
                 res.Add(line);
             }
+            sr.Close();
             return res;
+        }
+        public static void WriteString(List<string> str, string url)
+        {
+            StreamWriter sw = new(url, false);
+            foreach (string line in str)
+            {
+                sw.WriteLine(line);
+            }
+            sw.Close();
         }
         public static bool IsSpacyStr(string str)
         {
@@ -33,17 +45,27 @@
         {
             string tempStr = string.Join(" ", str);
             string[] words = tempStr.Split(' ');
-            string line = "";
+            string line;
             List<string> res = new();
-            for (int i = 0; i < words.Length; i++)
+            int i = 0;
+            while (i < words.Length)
             {
-
                 line = "";
-                while (i != words.Length - 1 && line.Length + words[i++].Length < n)
+                while (line.Length < n)
                 {
-                    line += words[i++] + " ";
+                    if (i == words.Length - 1)
+                    {
+                        line += words[i++];
+                        line += new string(Enumerable.Repeat(' ', n - line.Length - 1).ToArray());
+                        break;
+                    }
+                    if (line.Length + words[i].Length + 1 > n)
+                    {
+                        line += new string(Enumerable.Repeat(' ', n - line.Length - 1).ToArray());
+                        break;
+                    }
+                    line += line.Length + words[i].Length + 1 == n ? words[i++] : words[i++] + ' ';
                 }
-
                 res.Add(line);
             }
             
